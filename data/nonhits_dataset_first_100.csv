@@ -1,0 +1,101 @@
+﻿song_id,song_name,id_artists,name_artists,popularity,explicit,song_type,track_number,num_artists,num_available_markets,release_date,duration_ms,key,mode,time_signature,acousticness,danceability,energy,instrumentalness,liveness,loudness,speechiness,valence,tempo
+1TEL6MlSSVLSdhOSddidlJ,needy,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],76,TRUE,Solo,2,1,79,2/8/19,171573,7,0,4,0.78,0.647,0.309,0.00000741,0.202,-7.948,0.0366,0.195,87.045
+4uTvPEr01pjTbZgl7jcKBD,NASA,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],76,FALSE,Solo,3,1,79,2/8/19,182000,6,1,4,0.451,0.747,0.458,0,0.252,-6.891,0.303,0.47,75.029
+2hloaUoRonYssMuqLCBLTX,bloodline,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],74,TRUE,Solo,4,1,79,2/8/19,216893,2,0,4,0.0815,0.758,0.665,0.000157,0.216,-5.188,0.0774,0.643,151.976
+3wFLWP0FcIqHK1wb1CPthQ,fake smile,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],73,TRUE,Solo,5,1,79,2/8/19,208880,9,1,4,0.329,0.45,0.619,0,0.319,-7.412,0.372,0.427,83.3
+5Il6Oe7lr5XM7A0cWbVQtr,bad idea,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],74,FALSE,Solo,6,1,79,2/8/19,267107,1,1,4,0.0268,0.847,0.579,0.0545,0.102,-5.314,0.0719,0.569,137.998
+27356GVuMPFWiJSZCragoM,make up,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],70,TRUE,Solo,7,1,79,2/8/19,140693,7,1,3,0.0844,0.671,0.714,0.00000148,0.0568,-5.373,0.21,0.477,105.137
+2vdBo4ALPYbHRUPKgtE5iC,ghostin,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],72,FALSE,Solo,8,1,79,2/8/19,271467,9,1,4,0.418,0.287,0.364,0.000018,0.185,-8.295,0.0306,0.11,103.777
+4T652DlATVHe0jdLKaN3Bw,in my head,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],74,TRUE,Solo,9,1,79,2/8/19,222947,0,1,4,0.173,0.662,0.6,0.000137,0.109,-6.402,0.0703,0.331,134.979
+6ocbgoVGwYJhOv1GgI9NsF,7 rings,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],89,TRUE,Solo,10,1,79,2/8/19,178627,1,0,4,0.592,0.778,0.317,0,0.0881,-10.732,0.334,0.327,140.048
+4kV4N9D1iKVxx1KLvtTpjS,"break up with your girlfriend, i'm bored",['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],84,TRUE,Solo,12,1,79,2/8/19,190440,5,0,4,0.0421,0.726,0.554,0,0.106,-5.29,0.0917,0.335,169.999
+0v2LUO8oTHnkjQ8MmKuXyk,raindrops (an angel cried),['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],66,TRUE,Solo,1,1,79,8/17/18,37640,1,1,5,0.942,0.336,0.231,0,0.188,-6.217,0.0497,0.429,168.685
+4mLkiFppf8Xvem6BSY34qw,blazed (feat. Pharrell Williams),"['66CXWjxzNUsdJxJ2JdwvnR', '2RdwBSPQiwcmiDo9kixcl8']","['Ariana Grande', 'Pharrell Williams']",60,TRUE,Collaboration,2,2,79,8/17/18,196360,6,1,4,0.0793,0.795,0.759,0,0.0805,-6.348,0.0528,0.855,110.021
+0sdbFOyfgAhAhWq8DpzkaW,the light is coming (feat. Nicki Minaj),"['66CXWjxzNUsdJxJ2JdwvnR', '0hCNtLu0JehylgoiP8L4Gh']","['Ariana Grande', 'Nicki Minaj']",67,TRUE,Collaboration,3,2,79,8/17/18,228373,7,1,4,0.0122,0.877,0.547,0.0000151,0.028,-5.705,0.18,0.687,99.034
+5YeHLHDdQ4nKHk81XFWhCU,successful,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],68,TRUE,Solo,7,1,79,8/17/18,227387,0,0,4,0.107,0.847,0.603,0.0000074,0.106,-4.607,0.0397,0.735,114.045
+4b7mLZQWsy0rLnrMtPA9fQ,borderline (feat. Missy Elliott),"['66CXWjxzNUsdJxJ2JdwvnR', '2wIVse2owClT7go1WT98tk']","['Ariana Grande', 'Missy Elliott']",61,TRUE,Collaboration,11,2,79,8/17/18,177533,6,0,4,0.058,0.761,0.818,0,0.11,-5.238,0.0978,0.348,110.99
+3NbTQ8ZbHU6MSEVUFAVCJ9,better off,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],67,TRUE,Solo,12,1,79,8/17/18,171333,11,1,4,0.216,0.597,0.524,0,0.112,-7.247,0.0537,0.0549,92.568
+7u6DMPznGbpziuEgCE0JGQ,get well soon,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],66,TRUE,Solo,15,1,79,8/17/18,322027,9,0,4,0.657,0.604,0.449,0,0.0932,-6.564,0.0353,0.528,100.355
+1rNNOKF4kiaNmdkpIKNsvd,raindrops (an angel cried),['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],35,FALSE,Solo,1,1,30,8/17/18,37640,1,1,5,0.943,0.336,0.231,0,0.183,-6.217,0.0493,0.431,168.724
+5xSDN95vD3KB25jBwuEZV3,blazed (feat. Pharrell Williams),"['66CXWjxzNUsdJxJ2JdwvnR', '2RdwBSPQiwcmiDo9kixcl8']","['Ariana Grande', 'Pharrell Williams']",33,FALSE,Collaboration,2,2,30,8/17/18,196360,6,1,4,0.0793,0.794,0.759,0,0.0804,-6.347,0.0534,0.854,110.024
+2uNre8fPMLoYIVj1P93qVE,the light is coming (feat. Nicki Minaj),"['66CXWjxzNUsdJxJ2JdwvnR', '0hCNtLu0JehylgoiP8L4Gh']","['Ariana Grande', 'Nicki Minaj']",44,FALSE,Collaboration,3,2,30,8/17/18,228373,6,0,4,0.0126,0.876,0.55,0.0000284,0.0272,-5.707,0.161,0.702,99.046
+5F66aRuoZMrrvc7U7eTR1y,R.E.M,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],39,FALSE,Solo,4,1,30,8/17/18,245667,10,0,4,0.391,0.831,0.485,0.0000192,0.12,-6.677,0.151,0.627,80.02
+1ChPiAIS5RGNUQY4ohyfXG,God is a woman,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],46,FALSE,Solo,5,1,30,8/17/18,197547,1,1,4,0.0233,0.602,0.658,0.0000578,0.229,-5.947,0.055,0.28,145.084
+5sT3app9Wcu4FAGnNs9oZR,sweetener,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],40,FALSE,Solo,6,1,30,8/17/18,208493,4,1,4,0.256,0.722,0.461,0,0.214,-6.428,0.0319,0.464,119.91
+6NPK12AruoBw2PPBQuku95,successful,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],37,FALSE,Solo,7,1,30,8/17/18,227387,0,0,4,0.107,0.848,0.601,0.00000775,0.108,-4.606,0.0399,0.737,114.045
+7sPbp28sThpD4opAhQsMTx,everytime,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],39,FALSE,Solo,8,1,30,8/17/18,172107,10,0,4,0.191,0.711,0.612,0,0.0974,-6.757,0.0437,0.658,148.157
+4vlnIIEJCooktVkmXtpjgZ,breathin,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],45,FALSE,Solo,9,1,30,8/17/18,198160,8,1,4,0.0232,0.378,0.646,0.0000104,0.0941,-5.411,0.0594,0.417,100.072
+4wZqeCVR3fwS5MFoRtAnia,no tears left to cry,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],39,FALSE,Solo,10,1,30,8/17/18,205920,0,1,4,0.04,0.701,0.713,0.00000314,0.267,-5.507,0.0547,0.361,121.934
+3bcNXYA4kZYCNNNnLkAgKU,borderline (feat. Missy Elliott),"['66CXWjxzNUsdJxJ2JdwvnR', '2wIVse2owClT7go1WT98tk']","['Ariana Grande', 'Missy Elliott']",34,FALSE,Collaboration,11,2,30,8/17/18,177533,6,0,4,0.0575,0.761,0.818,0,0.11,-5.24,0.106,0.346,110.98
+7qWNz2bGSyULFLGMFqmjY8,better off,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],37,FALSE,Solo,12,1,30,8/17/18,171333,11,1,4,0.167,0.592,0.542,0,0.139,-7.374,0.073,0.0576,91.767
+0Tf9Mwk7DwysEajSNGa8n2,goodnight n go,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],39,FALSE,Solo,13,1,30,8/17/18,189507,1,1,4,0.0213,0.694,0.453,0,0.0795,-7.069,0.0397,0.24,110.909
+02Qo5DFgoGTiBGo4ZUvjXm,pete davidson,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],36,FALSE,Solo,14,1,30,8/17/18,73813,4,1,4,0.429,0.654,0.312,0.00000859,0.19,-10.212,0.0508,0.304,119.9
+6euozmIGRL6aVin2ksJEJ2,get well soon,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],36,FALSE,Solo,15,1,30,8/17/18,322027,9,0,4,0.651,0.604,0.45,0,0.0934,-6.564,0.0354,0.531,100.347
+1TuSAhOzTqoFf7BZxBl6nz,imagine,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],42,FALSE,Solo,1,1,24,2/7/18,212267,8,1,3,0.347,0.727,0.48,0,0.108,-4.929,0.0434,0.363,62.574
+2hLYQ60kR5lpf86EZwed8T,needy,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],41,FALSE,Solo,2,1,24,2/7/18,171573,7,0,4,0.808,0.638,0.315,0.0000108,0.211,-8.061,0.0323,0.202,87.012
+4SPu0Ql902hTVXkBoNIYtq,NASA,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],60,FALSE,Solo,3,1,24,2/7/18,182000,6,1,4,0.447,0.737,0.461,0,0.268,-6.887,0.293,0.481,75.005
+2bHfFzMY457XUjTX3eMtsj,bloodline,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],42,FALSE,Solo,4,1,24,2/7/18,216893,9,0,4,0.0701,0.761,0.654,0.000102,0.208,-5.191,0.0923,0.633,75.987
+2XaEbkNGsthliktfSsXYsH,fake smile,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],40,FALSE,Solo,5,1,24,2/7/18,208880,9,1,4,0.361,0.438,0.629,0,0.315,-7.445,0.397,0.407,78.378
+7EQpvVujgytLVY8vKiDHAg,bad idea,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],53,FALSE,Solo,6,1,24,2/7/18,267107,1,1,4,0.0276,0.847,0.58,0.0548,0.1,-5.316,0.0723,0.575,137.995
+6SzMGHWwN4RcDdZEriNCxR,make up,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],37,FALSE,Solo,7,1,24,2/7/18,140693,7,1,3,0.0849,0.439,0.728,0,0.0623,-5.405,0.277,0.427,47.644
+4lD7gHKF1e8Y9stQuVezZB,ghostin,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],50,FALSE,Solo,8,1,24,2/7/18,271467,9,1,4,0.422,0.396,0.358,0.0000171,0.19,-8.294,0.0292,0.111,103.807
+2QIcCx7MV914oIL2JmBoBV,in my head,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],40,FALSE,Solo,9,1,24,2/7/18,222947,0,1,4,0.163,0.631,0.607,0.0000672,0.108,-6.439,0.071,0.354,134.854
+0nox76VxGYPIIIP7yr5I6o,7 rings,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],57,FALSE,Solo,10,1,24,2/7/18,178627,1,0,4,0.559,0.78,0.321,0,0.0881,-10.747,0.371,0.316,139.961
+4KBx9DSSbFaumwlEqjX4CP,"thank u, next",['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],54,FALSE,Solo,11,1,24,2/7/18,207320,1,1,4,0.268,0.743,0.662,0.00000136,0.102,-5.745,0.0534,0.408,107.027
+5BHQG3Ibf7qZUlhWFaXqDa,"break up with your girlfriend, i'm bored",['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],51,FALSE,Solo,12,1,24,2/7/18,190440,5,0,4,0.0361,0.723,0.563,0,0.0873,-5.26,0.0795,0.329,170.004
+4TZdeM7zelZGz6JPrXSEZ1,Moonlight,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],66,FALSE,Solo,1,1,76,5/20/16,202360,9,1,3,0.417,0.626,0.412,0.00000355,0.048,-7.339,0.0292,0.209,102.169
+1pKeFVVUOPjFsOABub0OaV,Side To Side,"['66CXWjxzNUsdJxJ2JdwvnR', '0hCNtLu0JehylgoiP8L4Gh']","['Ariana Grande', 'Nicki Minaj']",78,TRUE,Collaboration,5,2,76,5/20/16,226160,6,0,4,0.0513,0.65,0.736,0,0.235,-5.84,0.229,0.612,159.174
+5AKlnLpP3WLwZseNbjquND,Let Me Love You,"['66CXWjxzNUsdJxJ2JdwvnR', '55Aa2cqylxrFIXC767Z865']","['Ariana Grande', 'Lil Wayne']",67,FALSE,Collaboration,6,2,76,5/20/16,223853,2,1,3,0.0295,0.528,0.435,0,0.243,-8.363,0.129,0.0781,102.704
+2tpIAmAq9orm1Owh5pja1w,Greedy,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],65,FALSE,Solo,7,1,76,5/20/16,214907,1,1,4,0.0323,0.62,0.705,0,0.092,-5.335,0.0989,0.844,109.974
+0zXXqCxifU2u8jfW2r4POb,Leave Me Lonely,"['66CXWjxzNUsdJxJ2JdwvnR', '4ylR3zwA0zaapAu94fktwa']","['Ariana Grande', 'Macy Gray']",61,FALSE,Collaboration,8,2,76,5/20/16,229680,8,0,3,0.596,0.445,0.449,0.0000234,0.339,-7.472,0.0315,0.374,90.927
+6yL2kTsdVwYnGwPkKGtMd5,Everyday,"['66CXWjxzNUsdJxJ2JdwvnR', '1RyvyyTE3xzB2ZywiAwp0i']","['Ariana Grande', 'Future']",70,TRUE,Collaboration,9,2,76,5/20/16,194840,7,0,4,0.0152,0.637,0.733,0,0.162,-4.387,0.0553,0.432,131.005
+1FlYPPzFJUNh3KRE36pYbe,Sometimes,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],61,FALSE,Solo,10,1,76,5/20/16,226667,4,1,4,0.0901,0.394,0.666,0,0.344,-5.383,0.25,0.561,77.827
+6j4w8O8gEseBUZTOo8vYMK,I Don't Care,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],57,TRUE,Solo,11,1,76,5/20/16,178027,0,1,4,0.729,0.59,0.403,0.00000138,0.153,-8.286,0.0431,0.287,111.948
+1j0Rb762xxT0eccglHKsRv,Bad Decisions,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],61,TRUE,Solo,12,1,76,5/20/16,226427,4,0,4,0.0146,0.698,0.646,0,0.269,-5.368,0.0415,0.787,131.945
+7MGRcJy1saXKiphwqJBnRb,Touch It,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],63,FALSE,Solo,13,1,76,5/20/16,260000,7,0,4,0.0305,0.536,0.694,0,0.183,-4.369,0.0331,0.293,100.899
+2SUQGI9ztmp0PQd1J8SVHx,Knew Better / Forever Boy,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],60,FALSE,Solo,14,1,76,5/20/16,299213,6,1,4,0.235,0.484,0.38,0.0000038,0.0998,-6.706,0.071,0.372,106.652
+6iOhd5wNnvvwGDEuNILvM5,Thinking Bout You,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],63,TRUE,Solo,15,1,76,5/20/16,200400,11,1,4,0.0149,0.507,0.697,0.000887,0.122,-6.021,0.0616,0.401,102.983
+2ZHH9aoZjrqtFk1SX1dXy7,Moonlight,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],18,FALSE,Solo,1,1,73,5/20/16,202360,9,1,3,0.417,0.626,0.412,0.00000355,0.048,-7.339,0.0292,0.209,102.169
+6RUhbFEhrvGISaQ8u2j2JN,Dangerous Woman,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],22,FALSE,Solo,2,1,73,5/20/16,235947,4,0,3,0.0529,0.662,0.602,0,0.356,-5.369,0.0401,0.29,133.969
+4gfOOBI36Z94x9Gai61XP4,Be Alright,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],18,FALSE,Solo,3,1,73,5/20/16,179293,1,0,4,0.169,0.813,0.456,0.00000285,0.105,-7.667,0.0685,0.587,108.801
+63y6xWR4gXz7bnUGOk8iI6,Into You,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],21,FALSE,Solo,4,1,73,5/20/16,244453,9,1,4,0.0162,0.623,0.734,0.0000019,0.145,-5.95,0.107,0.372,107.853
+43bCmCI0nSgcT7QdMXY6LV,Side To Side,"['66CXWjxzNUsdJxJ2JdwvnR', '0hCNtLu0JehylgoiP8L4Gh']","['Ariana Grande', 'Nicki Minaj']",20,TRUE,Collaboration,5,2,73,5/20/16,226160,6,0,4,0.0513,0.65,0.736,0,0.235,-5.84,0.229,0.612,159.174
+49vZduMPCMnDDrl1WBxUDk,Let Me Love You,"['66CXWjxzNUsdJxJ2JdwvnR', '55Aa2cqylxrFIXC767Z865']","['Ariana Grande', 'Lil Wayne']",19,FALSE,Collaboration,6,2,73,5/20/16,223853,2,1,3,0.0295,0.528,0.435,0,0.243,-8.363,0.129,0.0781,102.704
+1FFUXkoWIc9of8yOscGiaC,Greedy,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],19,FALSE,Solo,7,1,73,5/20/16,214907,1,1,4,0.0323,0.62,0.705,0,0.092,-5.335,0.0989,0.844,109.974
+6RFoG1NFXFBRs3aAMpqCmN,Leave Me Lonely,"['66CXWjxzNUsdJxJ2JdwvnR', '4ylR3zwA0zaapAu94fktwa']","['Ariana Grande', 'Macy Gray']",16,FALSE,Collaboration,8,2,73,5/20/16,229680,8,0,3,0.596,0.445,0.449,0.0000234,0.339,-7.472,0.0315,0.374,90.927
+4RJTTrZqPFWaWACVXHkvjw,Everyday,"['66CXWjxzNUsdJxJ2JdwvnR', '1RyvyyTE3xzB2ZywiAwp0i']","['Ariana Grande', 'Future']",18,TRUE,Collaboration,9,2,73,5/20/16,194840,7,0,4,0.0152,0.637,0.733,0,0.162,-4.387,0.0553,0.432,131.005
+0NAwPzl6im6ds9pe51BdD4,Bad Decisions,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],16,TRUE,Solo,10,1,73,5/20/16,226427,4,0,4,0.0173,0.696,0.652,0,0.279,-5.36,0.0423,0.794,131.949
+0D9w5UiVChw1VTZk1py37x,Thinking Bout You,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],19,TRUE,Solo,11,1,73,5/20/16,200400,11,1,4,0.0148,0.511,0.696,0.000839,0.123,-6.029,0.0615,0.394,103.145
+50Mc9BDUDzTxFwaPygZw6H,Moonlight,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],30,FALSE,Solo,1,1,24,5/20/16,202360,9,1,3,0.417,0.626,0.412,0.00000355,0.048,-7.339,0.0292,0.209,102.169
+1ZANBLJ4pow8yBrFN9EGFF,Dangerous Woman,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],44,FALSE,Solo,2,1,24,5/20/16,235947,4,0,3,0.0529,0.662,0.602,0,0.356,-5.369,0.0401,0.29,133.969
+0zVcsPsy4WViFnskD3SXjc,Be Alright,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],31,FALSE,Solo,3,1,24,5/20/16,179293,1,0,4,0.169,0.813,0.456,0.00000285,0.105,-7.667,0.0685,0.587,108.801
+7woND3TZisiEyZY6HQr0Zr,Into You,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],47,FALSE,Solo,4,1,24,5/20/16,244453,9,1,4,0.0162,0.623,0.734,0.0000019,0.145,-5.95,0.107,0.372,107.853
+2RTZ2xrCv92odRAHdpN1IB,Side To Side,"['66CXWjxzNUsdJxJ2JdwvnR', '0hCNtLu0JehylgoiP8L4Gh']","['Ariana Grande', 'Nicki Minaj']",40,FALSE,Collaboration,5,2,24,5/20/16,226160,6,0,4,0.0415,0.644,0.725,0,0.165,-5.816,0.184,0.67,159.172
+5C5LG3t9HGtz6opYch8uXj,Let Me Love You,"['66CXWjxzNUsdJxJ2JdwvnR', '55Aa2cqylxrFIXC767Z865']","['Ariana Grande', 'Lil Wayne']",33,FALSE,Collaboration,6,2,24,5/20/16,223853,2,1,3,0.0295,0.528,0.435,0,0.243,-8.363,0.129,0.0781,102.704
+3QzKOkJx93qT95MpEYLYOD,Greedy,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],28,FALSE,Solo,7,1,24,5/20/16,214907,1,1,4,0.0323,0.62,0.705,0,0.092,-5.335,0.0989,0.844,109.974
+49dApkMoBJGB4NlyjTdt4s,Leave Me Lonely,"['66CXWjxzNUsdJxJ2JdwvnR', '4ylR3zwA0zaapAu94fktwa']","['Ariana Grande', 'Macy Gray']",23,FALSE,Collaboration,8,2,24,5/20/16,229680,8,0,3,0.596,0.445,0.449,0.0000234,0.339,-7.472,0.0315,0.374,90.927
+0sGPJOpsQs7K2OwxSPMmxf,Everyday,"['66CXWjxzNUsdJxJ2JdwvnR', '1RyvyyTE3xzB2ZywiAwp0i']","['Ariana Grande', 'Future']",35,FALSE,Collaboration,9,2,24,5/20/16,194840,7,0,4,0.0168,0.631,0.721,0,0.189,-4.51,0.0521,0.457,130.975
+57pP1na1daT3zVtQzoLCO7,Sometimes,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],25,FALSE,Solo,10,1,24,5/20/16,226667,4,1,4,0.0901,0.394,0.666,0,0.344,-5.383,0.25,0.561,77.827
+4FK4RZ54LKzxwVBxcZ8NsE,I Don't Care,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],22,FALSE,Solo,11,1,24,5/20/16,178027,5,1,4,0.772,0.587,0.4,0,0.153,-8.32,0.0402,0.23,111.972
+7eS959IbSi81CQ5kSB64HT,Bad Decisions,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],24,FALSE,Solo,12,1,24,5/20/16,226427,4,0,4,0.0149,0.697,0.643,0,0.28,-5.399,0.0427,0.817,131.96
+4JJbnMA73TiInSEaSD2NtI,Touch It,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],28,FALSE,Solo,13,1,24,5/20/16,260000,7,0,4,0.0305,0.536,0.694,0,0.183,-4.369,0.0331,0.293,100.899
+3BJLJsOOHyaRQaSZJGxeDE,Knew Better / Forever Boy,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],24,FALSE,Solo,14,1,24,5/20/16,299213,6,1,4,0.235,0.484,0.38,0.0000038,0.0998,-6.706,0.071,0.372,106.652
+4jPkb4FWzVP7NKeIMMSKF7,Thinking Bout You,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],38,FALSE,Solo,15,1,24,5/20/16,200400,11,1,4,0.0164,0.519,0.704,0.000479,0.121,-6.08,0.0577,0.434,103.014
+7AzMEO5Dg74gLK4s3vvqYn,Moonlight,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],14,FALSE,Solo,1,1,22,5/20/16,202360,9,1,3,0.417,0.626,0.412,0.00000355,0.048,-7.339,0.0292,0.209,102.169
+2W0Y7S3RZ0S5B3X4Ve4Qfl,Dangerous Woman,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],19,FALSE,Solo,2,1,22,5/20/16,235947,4,0,3,0.0529,0.662,0.602,0,0.356,-5.369,0.0401,0.29,133.969
+7JOUHzzEMIuHT1ETbRGon2,Be Alright,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],15,FALSE,Solo,3,1,22,5/20/16,179293,1,0,4,0.169,0.813,0.456,0.00000285,0.105,-7.667,0.0685,0.587,108.801
+2jCbLUgE3x4QBCwl0I75aI,Into You,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],18,FALSE,Solo,4,1,22,5/20/16,244453,9,1,4,0.0162,0.623,0.734,0.0000019,0.145,-5.95,0.107,0.372,107.853
+4kKDkUwPria5AFZvUMZoH8,Side To Side,"['66CXWjxzNUsdJxJ2JdwvnR', '0hCNtLu0JehylgoiP8L4Gh']","['Ariana Grande', 'Nicki Minaj']",17,FALSE,Collaboration,5,2,22,5/20/16,226160,6,0,4,0.0415,0.644,0.725,0,0.165,-5.816,0.184,0.67,159.172
+1WMQTjW0oRA66XdtmVUKi8,Let Me Love You,"['66CXWjxzNUsdJxJ2JdwvnR', '55Aa2cqylxrFIXC767Z865']","['Ariana Grande', 'Lil Wayne']",15,FALSE,Collaboration,6,2,22,5/20/16,223853,2,1,3,0.0295,0.528,0.435,0,0.243,-8.363,0.129,0.0781,102.704
+6NnYy9wg3JaZV622xboXTu,Greedy,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],15,FALSE,Solo,7,1,22,5/20/16,214907,1,1,4,0.0323,0.62,0.705,0,0.092,-5.335,0.0989,0.844,109.974
+0jISoWCCqQyr3tvoQEfeck,Leave Me Lonely,"['66CXWjxzNUsdJxJ2JdwvnR', '4ylR3zwA0zaapAu94fktwa']","['Ariana Grande', 'Macy Gray']",12,FALSE,Collaboration,8,2,22,5/20/16,229680,8,0,3,0.596,0.445,0.449,0.0000234,0.339,-7.472,0.0315,0.374,90.927
+1CbwwcXkWbUhc6E3V0Bcl5,Everyday,"['66CXWjxzNUsdJxJ2JdwvnR', '1RyvyyTE3xzB2ZywiAwp0i']","['Ariana Grande', 'Future']",14,FALSE,Collaboration,9,2,22,5/20/16,194840,7,0,4,0.0168,0.631,0.721,0,0.189,-4.51,0.0521,0.457,130.975
+1xMCFmyVO51PPgWv1szzC5,Bad Decisions,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],13,FALSE,Solo,10,1,22,5/20/16,226427,4,0,4,0.0146,0.694,0.643,0,0.281,-5.404,0.0414,0.809,131.966
+2xOpn5FbzNfpdocDzhKBCd,Thinking Bout You,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],13,FALSE,Solo,11,1,22,5/20/16,200400,11,1,4,0.0175,0.525,0.697,0.000435,0.121,-6.06,0.0632,0.426,103.038
+0qMNPhpRzbghJy6G3SgRag,Intro,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],51,FALSE,Solo,1,1,63,8/25/14,79840,6,1,4,0.969,0.447,0.182,0.0000383,0.327,-12.439,0.0324,0.096,89.814
+7vS3Y0IKjde7Xg85LWIEdP,Problem,"['66CXWjxzNUsdJxJ2JdwvnR', '5yG7ZAZafVaAlMTeBybKAL']","['Ariana Grande', 'Iggy Azalea']",72,FALSE,Collaboration,2,2,63,8/25/14,193920,1,0,4,0.0192,0.66,0.805,0.00000883,0.159,-5.352,0.153,0.625,103.009
+40fHWRL8bKcl5J4t4OKUiW,Why Try,['66CXWjxzNUsdJxJ2JdwvnR'],['Ariana Grande'],58,FALSE,Solo,4,1,63,8/25/14,211880,8,0,4,0.0494,0.443,0.663,0,0.153,-5.946,0.0432,0.331,159.856
+12KUFSHFgT0XCoiSlvdQi4,Break Free,"['66CXWjxzNUsdJxJ2JdwvnR', '2qxJFvFYMEDqd7ui6kSAcq']","['Ariana Grande', 'Zedd']",72,FALSE,Collaboration,5,2,63,8/25/14,214840,7,0,4,0.0064,0.687,0.702,0.0000435,0.204,-5.324,0.0455,0.284,129.956
+70yhaHLp9STtzI2Kzba6Tr,Best Mistake,"['66CXWjxzNUsdJxJ2JdwvnR', '0c173mlxpT3dSFRgMO8XPh']","['Ariana Grande', 'Big Sean']",65,FALSE,Collaboration,6,2,63,8/25/14,233733,6,1,4,0.546,0.654,0.578,0,0.112,-6.897,0.449,0.233,143.867
+0fonaf88IEDQM309zmU80L,Be My Baby,"['66CXWjxzNUsdJxJ2JdwvnR', '2LZDXcxJWgsJfKXZv9a5eG']","['Ariana Grande', 'Cashmere Cat']",58,FALSE,Collaboration,7,2,63,8/25/14,217053,3,0,4,0.0735,0.622,0.586,0.00000741,0.0803,-6.241,0.0356,0.434,145.08
+0HGcQDbRen8luCnwH53sNl,Break Your Heart Right Back,"['66CXWjxzNUsdJxJ2JdwvnR', '73sIBHcqh3Z3NyqHKZ7FOL']","['Ariana Grande', 'Childish Gambino']",59,FALSE,Collaboration,8,2,63,8/25/14,253387,6,1,4,0.0113,0.726,0.605,0,0.0639,-5.673,0.0628,0.588,93.93
