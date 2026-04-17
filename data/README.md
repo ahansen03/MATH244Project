@@ -1,5 +1,11 @@
 This is the folder in which we will save all of our data used for the project.
 
+# Data Source
+
+The hits/nonhits datasets were collected from [MusicOSet](https://marianaossilva.github.io/DSW2019/updates.html). MusicOSet data was collected by researchers using the Spotify API and Billboard Hot 100 data.
+
+The nonhits dataset is particularly large, so we uploaded a csv file of the first 100 rows to this Github folder.
+
 # Codebook
 
 1. "duration_ms": The length of the track (in milliseconds).
