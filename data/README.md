@@ -2,7 +2,7 @@ This is the folder in which we will save all of our data used for the project.
 
 # Data Source
 
-The hits/nonhits datasets were collected from [MusicOSet](https://marianaossilva.github.io/DSW2019/updates.html). MusicOSet data was collected by researchers using the Spotify API and Billboard Hot 100 data.
+The hits/nonhits datasets were collected from [MusicOSet](https://marianaossilva.github.io/DSW2019/updates.html). The genres associated with the artists was matches from the artists.csv dataset in the musicoset_metadata.zip file downloaded also from [MusicOSet](https://marianaossilva.github.io/DSW2019/#tables). MusicOSet data was collected by researchers using the Spotify API and Billboard Hot 100 data.
 
 The nonhits dataset is particularly large, so we uploaded a csv file of the first 100 rows to this Github folder.
 
@@ -22,3 +22,4 @@ The nonhits dataset is particularly large, so we uploaded a csv file of the firs
 13. "explicit": A boolean indicating if a song is tagged as being explicit in Spotify (TRUE if yes, FALSE if no).
 14. "mode": The indicator of what kind of scale was used. Can be 1 (major scale) or 0 (minor scale).
 15. "hit": A boolean indicating if a song reached the Billboard Hot 100 (TRUE if yes, FALSE if no).
+16. "genres": A list of the genres that the main artist is associated with.
