@@ -10,7 +10,7 @@ The nonhits dataset is particularly large, so we uploaded a csv file of the firs
 
 1. "duration_ms": The length of the track (in milliseconds), standardized in our analysis to be between 0 (short) and 1 (long).
 2. "acousticness": The measure of how acoustic a track is. Ranges from 1 (high acousticness) to 0 (low acousticness).
-3. "danceability": The measure of how suitable a track is for dancing based on a multiple musical elements including tempo, rhythm stability, beat strength, and overall regularity. Ranges from 1 (high danceability) to 0 (low danceability).
+3. "danceability": The measure of how suitable a track is for dancing based on multiple musical elements including tempo, rhythm stability, beat strength, and overall regularity. Ranges from 1 (high danceability) to 0 (low danceability).
 4. "energy": The measure of how intense and active a song is based on multiple musical elements including tempo, density/timbre, loudness, and others. Ranges from 1 (high energy) to 0 (low energy).
 5. "instrumentalness": The measure of how instrumental a song is (as opposed to vocal). Ranges from 1 (no vocals, high instrumentalness) to 0 (vocals, low instrumentalness). Values above 0.5 indicate instrumental tracks, with confidence increasing as it approaches 1.
 6. "liveness": Detects the presence of an audience in a track. Ranges from 1 (very likely a live track) to 0 (highly unlikely to be a live track).
