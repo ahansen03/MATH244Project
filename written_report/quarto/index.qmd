@@ -1,9 +1,0 @@
----
-title: "MATH 244: Intermediate Data Science Project"
----
-
-Hello! We are the Danish Club, made up of Vassar College senior mathematics majors Anders Hansen and Miles Sondergaard Jensen. Welcome to our MATH 244: Intermediate Data Science final project report. Navigate the tabs at the top to explore our analysis of what separates hit songs from non-hit songs in the 2010s!
-
-![](music.webp){fig-align="center" width="603"}
-
-[Image from rawpixel](https://www.rawpixel.com/image/9072615/png-white-background-music-note)
