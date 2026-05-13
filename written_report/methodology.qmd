@@ -1,0 +1,58 @@
+---
+title: "Methodology"
+subtitle: "Spring 2026"
+format: 
+  html:
+    page-layout: full
+    theme: cosmo
+    toc: true
+    toc-title: "Contents"
+    embed-resources: true
+    standalone: true
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+## Modeling Approach
+
+To predict song success, we implemented two classification models: **LASSO (L1)** and **Ridge (L2)** regression. These methods were chosen because of their ability to handle multicollinearity between musical features (which we observed between a few of the metrics) and prevent overfitting by penalizing large coefficients.
+
+### Machine Learning Pipeline
+
+Our analysis was conducted using a Python-based pipeline integrated into our R environment via the `reticulate` package. The process involved several key stages:
+
+* **Preprocessing**: We used a `column_transformer` to handle different data types simultaneously.
+
+    * **Categorical Variables**: 'Key', 'Explicit', 'Mode', and 'Genre' were processed using One-Hot Encoding.
+    
+    * **Numerical Variables**: All features on a 0-1 scale were passed through a `StandardScaler` to ensure all predictors were on the same scale.
+    
+* **Cross-Validation**: To ensure our results were generalizable, we utilized **5-fold cross-validation** during the model fitting process.
+
+* **Data Splitting**: The dataset was split into a **Training Set (80%)** to build the models and a **Test Set (20%)** to evaluate their final performance.
+
+### LASSO vs. Ridge
+
+We tested both regularization techniques to see how they handled our feature set:
+
+1. **LASSO Regression**: Useful for feature selection, as it can shrink the coefficients of less important variables all the way to zero.
+
+2. **Ridge Regression**: Useful for dealing with highly correlated variables (like 'Energy' and 'Loudness') by shrinking coefficients proportionally without eliminating them.
+
+### Evaluating Success
+
+We evaluated our models based on three primary metrics:
+
+
+* **Accuracy**: The percentage of correct hit/non-hit predictions.
+
+* **F1 Score**: The balance between precision and recall.
+
+* **ROC-AUC**: The model's ability to distinguish between the two classes across various thresholds.
+
+By comparing versions of these models with and without 'Genre' as a predictor, we aimed to isolate exactly how much the "sound" of a song matters versus its genre classification.
+
+---
+
+Next, we will show the **Results** of our models and how they align with our expectations.

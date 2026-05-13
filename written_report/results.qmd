@@ -1,0 +1,104 @@
+---
+title: "Modeling Results"
+subtitle: "Spring 2026"
+format: 
+  html:
+    page-layout: full
+    theme: cosmo
+    toc: true
+    toc-title: "Contents"
+    embed-resources: true
+    standalone: true
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+## Model Performance
+
+Our primary goal was to differentiate between hit and non-hit songs with better than 50% accuracy. Both our LASSO and Ridge models successfully exceeded this threshold, achieving approximately **69% accuracy** on the test data when genre was included as a predictor.
+
+When running our models, we had originally set a constant seed number when choosing the subset of the nonhits dataset to use. However, we wanted to know how the model would perform when a different subset was chosen. For this reason, the figures below reflect the results from an average of five randomly-chosen seed numbers.
+
+### Key Model Metrics and Features
+Whether we used the L1 (LASSO) or L2 (Ridge) penalty, the performance was fairly consistent:
+
+| Performance Metric | LASSO (w/ genre) | Ridge (w/ genre) | LASSO (w/o genre) | Ridge (w/o genre) |
+|:---|:---:|:---:|:---:|:---:|
+| **Accuracy** | 69.23% | 69.42% | 66.49% | 66.42%
+| **F1 Score** | 0.72 | 0.73 | 0.71 | 0.70
+| **ROC-AUC** | 0.75 | 0.75 | 0.73 | 0.73
+
+The models identified several audio features that strongly influenced the likelihood of a song becoming a hit. The table below demonstrates the top 10 most influential predictors when genre was included across the two models: 
+
+#### Top 10 Features (LASSO)
+
+| Feature | LASSO (average)
+|:---|:---:|:---:|
+| **genre_Soundtrack/Theater** | 2.08 |
+| **genre_Country** | 1.73 |
+| **genre_Soul/R&B/Funk** | 1.72 |
+| **genre_Easy Listening** | 1.55 |
+| **genre_Pop** | 1.55 |
+| **genre_Rock/Metal** | 1.37 |
+| **genre_Hip Hop/Rap** | 1.22 |
+| **genre_Electronic/Dance** | 1.20 |
+| **genre_Comedy/Entertainment** | -1.05 |
+| **genre_Other** | 1.04 |
+
+#### Top 10 Features (Ridge)
+
+| Feature | Ridge (average)
+|:---|:---:|:---:|
+| **genre_Soundtrack/Theater** | 2.23 |
+| **genre_Country** | 1.90 |
+| **genre_Soul/R&B/Funk** | 1.89 |
+| **genre_Pop** | 1.73 |
+| **genre_Easy Listening** | 1.73 |
+| **genre_Rock/Metal** | 1.54 |
+| **genre_Hip Hop/Rap** | 1.40 |
+| **genre_Electronic/Dance** | 1.38 |
+| **genre_Other** | 1.23 |
+| **genre_Comedy/Entertainment** | -0.90 |
+
+It is evident that genre is the main factor driving our predictions. For this reason, we might expect model accuracy to decrease significantly when genre is not included. Interestingly, removing "Genre" as a predictor only decreased the accuracy by around 3%, suggesting that the raw audio characteristics themselves carry significant weight regardless of how the song is categorized. The table below demonstrates the top 7 most influential predictors when genre was not included across the two models (the other predictors had very small coefficients or shrank to 0): 
+
+#### Top 7 Features (LASSO, no genre)
+
+| Feature | LASSO (average)
+|:---|:---:|:---:|
+| **instrumentalness** | -0.60 |
+| **explicit_True** | 0.45 |
+| **loudness** | 0.40 |
+| **liveness** | -0.18 |
+| **speechiness** | -0.15 |
+| **valence** | 0.14 |
+| **acousticness** | -0.11 |
+
+#### Top 7 Features (Ridge, no genre)
+
+| Feature | Ridge (average)
+|:---|:---:|:---:|
+| **instrumentalness** | -0.57 |
+| **explicit_True** | 0.43 |
+| **loudness** | 0.38 |
+| **liveness** | -0.18 |
+| **speechiness** | -0.15 |
+| **valence** | 0.14 |
+| **key_2.0** | -0.09 |
+
+### Model Results Interpretation
+
+While marketing and luck undoubtedly play a role, our models suggest that approximately 69% of a song's chart success can be explained by track characteristics. Key takeaways from our LASSO and Ridge analysis include:
+
+* Even when we removed the **Genre** tags, the models only lost ~3% accuracy. This indicates that the characteristics of the audio help us to predict song success without genre labels.
+
+* **Instrumentalness** was one of the most powerful negative predictors across the genre-blind models. In the 2010s, songs that reached mainstream success were often characterized as "vocal-heavy" and lacking significant instrumental presence.
+
+* The positive coefficients for **Loudness** and **Explicit (True)** suggest that the 2010s favored more aggressive and louder tracks. Conversely, the negative coefficients for **Liveness** and **Speechiness** highlight that the hit songs in the 2010s were typically not live recordings or spoken word tracks.
+
+While our model isn't perfect, a 69% success rate proves that there is indeed a "tangible formula" to 2010s hits that goes beyond simple marketing luck.
+
+---
+
+Next, we will get into the **Discussion** section where we summarize our findings, limitations of the current analysis, and possible future work.
