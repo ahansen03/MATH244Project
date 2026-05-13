@@ -1,0 +1,913 @@
+---
+title: "MATH244 Final Project Presentation"
+author: "Danish Club: Anders Hansen and Miles Jensen"
+subtitle: "04/30/2026"
+execute:
+  echo: true
+format:
+  revealjs:
+    theme: default 
+    footnote: "Final Project"
+editor: 
+  markdown: 
+    wrap: 72
+engine: knitr
+---
+
+```{r load-packages}
+#| warning: false
+#| echo: false
+#| message: false
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(reticulate)
+library(tidyverse)
+library(stringr)
+library(ggcorrplot)
+set.seed(67)
+reticulate::use_miniconda("~/Library/r-miniconda-arm64/bin/python3.12")
+```
+
+# Project Introduction
+
+## Project Overview and Motivation {.smaller}
+
+#### Motivation
+- Determine if song success is driven by tangible characteristics of the music or if it is based on "unmeasureables" (i.e. marketing, luck, timing, "catchiness")
+  - Using a sample of hit and non-hit songs releases between 2010 and 2019
+  - We define success as appearance on the Billboard Hot 100 
+
+- Why the 2010s?
+  - This period represents formative years for many of us (childhood/teens)
+  - The music was really good (some songs are still charting today)
+  - Successful song criteria seemed to change a lot over this period
+
+#### Goal:
+- Predict success of 2010s songs based on song characteristics
+  - Create a model that is over 50% accurate in differentiating hit songs from non-hit songs
+
+## Data Sources {.smaller}
+
+```{r load-data}
+#| message: false
+#| warning: false
+#| echo: false
+hits_data <- read_tsv("data/hits_dataset.csv")
+nonhits_data <- read_tsv("data/nonhits_dataset.csv")
+artists_data <- read_tsv("data/artists.csv")
+```
+
+[MusicOSet](https://marianaossilva.github.io/DSW2019/)
+
+* An open and enhanced dataset of musical elements (music, albums, and artists) suitable for music data mining
+* Explanatory Variables:
+  * Spotify audio features
+  * Spotify artist genres
+* Outcome Variable:
+  * Billboard Hot 100 Data
+
+The three datasets we used:
+
+1. hits_dataset.csv: Spotify audio features for songs that **did** chart (size: 11,959 x 24)
+2. nonhits_dataset.csv: Spotify audio features for songs that **did not** chart made by hit artists (size: 899,068 x 24)
+3. artists.csv: main genre associated with each artist (size: 11,518 x 8)
+
+## Data Cleaning: artists {.smaller}
+
+`main_genre`
+
+* Very specific/niche 
+* Searched for keywords to sort them into broader genres instead ('Rap/Hip Hop', 'Pop', 'Indie', etc.) and then the nicher genres we put into 'Other'
+* Genres with less than 100 observations in the combined dataset we reclassified into 'Other' (prevent overfitting)
+
+```{r artists-genre-broaden}
+#| echo: false
+artists_data_cleaned <- artists_data %>%
+  # drop artists with no genre listed
+  filter(main_genre != "-") %>% 
+  # only keep the artist_id and main_genre
+  select(c(artist_id, main_genre)) 
+
+# get the broad genre for the most common niche genres
+artists_data_cleaned <- artists_data_cleaned %>%
+  mutate(
+    genre = case_when(
+      str_detect(tolower(main_genre), "hip hop|rap|trap|drill|grime|g funk|new jack swing|crunk") ~ "Hip Hop/Rap",
+      str_detect(tolower(main_genre), "pop|dance|electropop|bubblegum|boy band|freestyle|idol") ~ "Pop",
+      str_detect(tolower(main_genre), "indie|alternative|shoegaze|lo-fi|emo|dreamo") ~ "Indie",
+      str_detect(tolower(main_genre), "country|outlaw|hillbilly") ~ "Country",
+      str_detect(tolower(main_genre), "rock|punk|metal|grunge|garage|british invasion|jam band|deathcore|permanent wave") ~ "Rock/Metal",
+      str_detect(tolower(main_genre), "electronic|edm|techno|house|dubstep|dnb|disco|electro|big room|big beat") ~ "Electronic/Dance",
+      str_detect(tolower(main_genre), "soul|r&b|neo soul|funk|neo mellow|motown") ~ "Soul/R&B/Funk",
+      # str_detect(tolower(main_genre), "jazz|blues|bebop") ~ "Jazz/Blues", # less than 100 observations in combined dataset
+      # str_detect(tolower(main_genre), "gospel|ccm|worship|christian") ~ "Gospel/Christian", # less than 100 observations in combined dataset
+      # str_detect(tolower(main_genre), "latin|reggae|salsa|cumbia|sertane|banda") ~ "Latin/Reggae", # less than 100 observations in combined dataset
+      # str_detect(tolower(main_genre), "folk|bluegrass|americana") ~ "Folk", # less than 100 observations in combined dataset
+      str_detect(tolower(main_genre), "classical|baroque|orchestra|chamber") ~ "Classical",
+      str_detect(tolower(main_genre), "adult standards|easy listening|lounge|piano cover|sleep|classify|coverchill") ~ "Easy Listening",
+      str_detect(tolower(main_genre), "soundtrack|broadway|show tunes|musical|hollywood") ~ "Soundtrack/Theater",
+      str_detect(tolower(main_genre), "comedy|comic|karaoke|a cappella|fake") ~ "Comedy/Entertainment",
+      str_detect(tolower(main_genre), "musica para ninos") ~ "Children's Music",
+      TRUE ~ "Other"
+    )
+  )
+
+# ids to remove -> catalogs added to spotify later 
+ids_remove = c('2vDV0T8sxx2ENnKXds75e5', '3tx8fyu3c4OBP5nejYtUOb', '5xLSa7l4IV1gsQfhAMvl0U', '5uwRBFpU9SQ9s2Us0nlXkk', '48nwxUvPJZkm8uPa7xMzmj', '4KDyYWR7IpxZ7xrdYbKrqY', '304senzcXGpWqcpssNpmXJ', '3Ri72CuuQSCLLkDRJgniFU', '1ktvF9yU9iWgY0aGlKfTS4', '0mopUs7SL5szuPOcOsS73A', '1PqdKx88nAgPolRy079lMl', '6J7biCazzYhU3gM9j1wfid', '1XIbUq7y7kiMUhmp5dywGx', '24qtJegdRiX2TPRvPN6rzk', '5gl2M2G5Dn5XTEW30iMMoD', '6I3M904Y9IwgDjrQ9pANiB', '0WxOgeRxUt0MwPrI7A5atQ', '04qIJRFjTmvW5I1DMyGE1R', '0MPtuQaV2GiRdLjAkPOaan', '52GxmJdAcByy1ZyPivpUns', '3VhvGNnWfzmlEyiuhzdgf5', '36hwOoNPgnsKnhoMBYpJrJ', '3xIkJAnwLy7NwZpPwvaSPc', '1cHFz6lrt7KAsBV8j2Ny1g', '3DEveX6KVzhPDqq2VRuN14', '45rpaf8BR69NIPqmeAYb7l', '2BLpGstUHxDc6vHfBEiaXm', '11XZpCBI7ExNNqmQoSgcJU', '6cAtGdArQhrU7tTBoeWY3P', '5BaHqGtf6UAZnHfqdPaTDA', '47fwSDHFIfnFlDVbYkSYkm', '4hKkEHkaqCsyxNxXEsszVH', '4hKkEHkaqCsyxNxXEsszVH', '2qbLM1AGCjpzC3PcOFMFU5', '0Lf3tvw0Rzwr38KDrShstn', '0h9smro0z3HqUbD94jotU8')
+
+ids_remove2 = c('3RwQ26hR2tJtA8F9p2n7jG', '5jNGQ7VOU87x5402JjhTtd', '1mNnxxnPfHQDOkFjnZmdkc', '2XzHxDFTNywDd5ReMhgxkg', '7dXeJ8kAqTqtvNWQNV3sdU', '6lr9AruL30Dwl82fDODq9u', '7ohSq6OUvkH1hkslgXfGMi', '1L56apXminRPJqnqBN0vhe', '3LfO03nEZMdWNHG2tLpMa0', '5fbhwqYYh4YwUoEs582mq5', '25J2zw5Yzn51UowSvGjUyJ', '0BPupuaqc7AXufhUoyvMrJ', '0PDqlUGugF5Jt6DZyATvfz', '7qaC0L1S5rm7017VN33Zf7', '1OxJzMLmR9l5zPLap9OxuO', '51hRQLOySCpDBsBL6C03IZ', '5P53Exo01miUunItQyR2La', '0is49Iy1V6aUJYQgUYpr6x', '2aXiJJHJei5BmCykxI37y0', '6m30rs1IQqnWqV5nKMpU7U', '0efkWb9xKhT6H0E7kgSjFK', '7Kfrmups2Z3ncDQmNS5jRc', '7xGGqA85UIWX1GoTVM4itC', '6lUcc15t11bnaPr2qOuFs2', '0j4pxInmdtF4bYQj0VVpbz', '71cyZ6pH0KrM2MdtO8RGmy', '5HRSYURV6LFFRCjAtiK0py', '6avGAzQTmqu8mfSmZrN7gT', '742YR9ZgF0tCO5juBfvPAU', '3dkbV4qihUeMsqN4vBGg93', '6XItHNeKXecnFpkJHOn5JL', '7GaxyUddsPok8BuhxN6OUW', '5PmZd7YOaUgQwhOja44fmZ', '6vuD08WKtmp1yc7kQx1rBm', '1l51Sc9HBh8fLXUDEjFhxU', '0F4yfY9manxJrgsfwbXdZa')
+
+ids_remove3 = c('2AV6XDIs32ofIJhkkDevjm', '5pq13QK3UcktjZaDw6dJEc', '27XI002zivG9xuzrZ9dIb1', '1ThoqLcyIYvZn7iWbj8fsj', '438JBZR1AR0l04AzcYW9gy', '0JCxGVxsISZzJHJPUOtceB', '3Bhgbs9kIwl8SuU0eIqN6b', '6PhJqhvF42CZ42NUmxIKLB', '0IecGJbdBeYSOVtSPRehh5', '0wbrRIw2po5DV4LeaHw55S', '3mC1KCuZZSOlN8Z0M56VsV', '1EialtL6J5R7O0exgdgQ1w', '7z1zaOeWiHpl4SD2N9ZBgk', '6YPRXu1dazGYcSZv4HJEH4', '0g3EsNvUCwgpsdkAiIC50W', '5Pek6HAr0BoHD9P1RuA7d5', '3IKV7o6WPphDB7cCWXaG3E', '4gXMKWbaoOBxvxAMz9Zbg4', '0ApoVi8QEh35twomSXh9TX', '0CXNdUUhv5Cw42dr0wWrjd', '4nts0oxMT67lVUoi5Kjxrb', '2uA0g2bLN2rIGZDkx671Ig', '67ZoIyKhetbA0x8LHzUXuE', '0701Axu6yvUIoctaKMbDIZ', '4NPzR70jYNxmCapRCwwBkr', '052NpRSiz4SQTsFnvwMP6t', '2wjWgyrpWbWmd077lMg04d', '7lffJlv0nRl0sIsHDmo0SB', '2SFOkFzbmtkUJ5A6LcYPWB', '4EBkFWxQ0EP5Fvya15d3Af', '3Inrg8cs8oc4q8oPES4a6S', '55izsTrkzLJ9KYKynnBmc0', '6LK7EEHFApe9FZbFRFyBDN', '5dORjaew9A94A25xvTMiTg', '1mg8nnhxHsBOe2lJHQvGdH', '0En4EEcDMJ5kaUCf1aZ9js')
+
+ids_remove4 = c('3AOPsb5oGscweRef0jCI1p', '3EkURHRbSZWjatYLo36NMS', '75jNCko3SnEMI5gwGqrbb8', '2RwV62DIxFGEn8aWO3iaMM', '5TbXjzD8tYgMD5JU2g2F8q', '4dNs4gsyisVixgpkjyvD8D', '2jV8AcZ8W3TfiqInUGWwlL', '60df5JBRRPcnSpsIMxxwQm', '3BLqcKdqgBI3oJvVg7Odz8', '3J11x63maeBtbx8zXgzftQ', '4amyFeBFFIbbe6yq3ODoYC', '7erYZsfekXYGWvup1bnkUZ', '4r2UnA39uIXexqO1mABayb', '64wglyu5BoOzwMXYjtAbfS', '0Z4CzYz9ieK8q9XiVMPkW5', '4jZOiPysIzYxbDcDEOZmhu', '59fzcTUsoozikLmRY1SwHS', '3koiLjNrgRTNbOwViDipeA', '6ohvzFHYmLd05kyYhLui5K', '6Bfy6QzadCXS92y0T8dDZF', '1VPlW2qDDesSK0ZE0u7JXk', '1QAGLCom3FHTTiuRFsjzOj', '2iy394hZHUSLDMIxAnrz8x', '1WY9RIHsINGWgV7Ne3D8gx', '2uNpV18izVIP7DNusoWbT5', '7mXnN0kZ67wigGTn1OuNkD', '0WZ7IgzdjPvwFdjDjjuZm7', '0nDEW2hmRliyOfxJwO2CL9', '0nVQLK3LSM9SFP5xp64D7a', '0adetEU8Vg0fU96nkB9Zel', '2nrn5Hfpxg0SfuVLbnHwoL', '4x2osw7xi8s1Jy04R6rTrn', '71pUA2TXf3JHUPUgsjLtuL', '2eRG04xbRiI1AzY8uTCySk', '7hsuVq0DQonl3PnP7qkfvP', '2aB94xAF1yUDTGLTIdkw7I')
+
+ids_remove5 = c('1c9ivsDITvYJmYqbtF02FT', '01Z8Z9K54zewyP04ZfGLSv', '2BgyJtxoixkegtJX6HqT4w', '050lnqPL6hydVpjY4MeacK', '7xCMJBL2xqnA5EsK1zeNYZ', '4GO3ufZJ7YsEnQ3PiML2Dg', '2gOghlWpnfwGGip7S1cMuq', '3amz8sGYUMDNb2wxf4PaTj', '2mknvtcck8i82nKxDPDibv', '72ktMty33X1LsIzHdRr0U5', '2EURsXo9qlt1aMWlviGCRi', '5w834ZosnqiBBV8xXCi3oD', '3UxJwjLkGvAlRi7NbYekGI', '7nwUJBm0HE4ZxD3f5cy5ok', '4pZJw2pjpyxcqdOUmYdwSY', '69g2TelswPN1IiFDKvaoSL', '6roFdX1y5BYSbp60OTJWMd', '5vngPClqofybhPERIqQMYd', '2bA6fzP0lMAQ4kz6CF61w8', '3P33qFNGBVXl86yQYWspFj', '25NQNriVT2YbSW80ILRWJa', '5e4Dhzv426EvQe3aDb64jL', '4mxWe1mtYIYfP040G38yvS', '25IG9fa7cbdmCIy3OnuH57', '0XKOBt59crntr7HQXXO8Yz', '32vWCbZh0xZ4o9gkz4PsEU', '4L1z1IcfK7lbqx8izGHaw5', '6Sb8EHpZvyjSTT5KD9DjUZ', '3XnO697XIus1M0cMuxZjos', '0jgAONnsHxrwAlhkMUVS78', '5W5bDNCqJ1jbCgTxDD0Cb3', '0dYkMe3wK29DulSa0uR8Rq', '5iB5AWIa7qreioi0AF3Bxa', '1LFKKuzn302wp15dYH28id', '0SNdq9iJyup4XY6JbNHbt6', '4jL1usPiGDK8TD46zJP4gu')
+
+ids_remove6 = c('5wpS6LUdQYMoAreKITVtrH', '502FY8XQYRxClWgolQ3Hf2', '0m7gTbaLi5fM22MiRaRf7G', '3lQuLlW6tYv1nm3nzyJ6Ty', '3yFnqoyp1e54tZEY4ykvNB', '5sAg1HZePcFfhrs0G8A8OP', '656TGMl6uRQSQlFRVCKt7w', '3MIwMeYV8vmgQFbbRiJTp2', '3mSAqBoXQgdlpwzWsIgBzL', '6kACVPfCOnqzgfEF5ryl0x', '0c08N8UlFjDaup9TNDaWxy', '5QsUbpxSE8lCZ5ga5rnD22', '6CXezToiGS8K6jr9kr8Muv', '14h0UcPJlGYv5Qrjp7m1jQ', '2FMZn5P3WATd7Il6FgPJNu', '1RP2UpEaRzkF0Id3JigqD8', '2rTgolMbO5tyXZvD26bO8e', '59zvXMeM3koefoJWQhBki6', '69wzuykaVXlRS5KVygESvd', '7wCjDgV6nqBsHguQXPAaIM', '1dfeR4HaWDbWqFHLkxsg1d', '0MHgLfmQdutffmvWe5XBTN', '3fMbdgg4jU18AjLCKBhRSm', '602DnpaSXJB4b9DZrvxbDc', '6PpGPIrFf3LM7Q77eR4Bts', '25Kw8f1zcn9VtUk5Nl3qrp', '2p4FqHnazRucYQHyDCdBrJ', '5IUvXYeMtVmp8YJWf0eqvf',
+'4lxfqrEsLX6N1N4OCSkILp', '7xkAwz0bQTGDSbkofyQt3U', '6V7pNWhlJpD0s0bMdB1PU9', '3nqA4JV7u2zG7prO5RLlAC', '5Ne8hQEmy0eZu9hlE3j58B', '2RE8NwNxsOyuNZDD0jRxHP', '0ZGAYur5k4gJprOffC6LkP')
+
+ids_remove7 = c('1zuJe6b1roixEKMOtyrEak', '2BTZIqw0ntH9MvilQ3ewNY', '7A9yZMTrFZcgEWAX2kBfK6', '26bcq2nyj5GB7uRr558iQg', '6GnCucI2uDaYj1j39GFxkn', '4qzZ6bMrjK27yHGVjs4Pvq', '3oAbjWINfcTSAuVUlXXMty',
+'3GHovBcEWpbnwCZDPF9GpM', '70ZTdbPEcEugBNay4MvxfL', '3WrFJ7ztbogyGnTHbHJFl2', '64rxQRJsLgZwHHyWKB8fiF', '2zbWfoRgxEJj2c2MyLjDkK', '5S3EbUETKlfsBRUiBKnqer', '1Z8ODXyhEBi3WynYw0Rya6')
+
+artists_data_cleaned <- artists_data_cleaned %>%
+  filter(!artist_id %in% c(ids_remove, ids_remove2, ids_remove3, ids_remove4, ids_remove5, ids_remove6, ids_remove7))
+
+# # see the distribution of broad genres
+# artists_data_cleaned %>%
+#   # count per genre, sort by descending
+#   count(genre, sort = TRUE) %>%
+#   # add percentage column to see distribution
+#   mutate(pct = round(n / sum(n) * 100, 1))
+
+# # check what makes up the bulk of the "Other" column (used for deciding what strings to look for)
+# artists_data_cleaned %>%
+#   # only keep "Other" genres
+#   filter(genre == "Other") %>%
+#   # count per main_genre, sort by descending
+#   count(main_genre, sort = TRUE) %>%
+#   # see top 30 unclassified genres
+#   head(30)  
+```
+
+## Data Cleaning: hits and nonhits {.smaller}
+
+* Drop NA values and missing data
+* Convert columns into correct format (numeric or char)
+* Drop rows where artist not in artists.csv (can't retrieve genre)
+* Drop songs outside of 2010-2019 scope
+* Drop >200 artists with incorrect release dates (also drop songs with "remaster" in name)
+* Drop songs by artists that didn't have a hit in 2010-2019
+* Drop songs with popularity <= 1 (indicates old song uploaded late)
+* Equal number of hits and nonhits (random sample)
+* Normalizing `loudness`, `tempo`, and `duration_ms`
+* Adding outcome variable: `hit` (boolean/logical)
+* Joined hits/nonhits into `combined_music_data`
+  * Size: 7,392 (3,696 hits + 3,696 nonhits) x 16
+
+```{r numeric-columns-and-dropNA}
+#| warning: false
+#| echo: false
+hits_data_cleaned <- hits_data %>%
+  # make sure all numeric variables are numeric
+  mutate(across(all_of(c("duration_ms", "key", "mode", 
+                     "acousticness", "danceability", "energy", 
+                     "instrumentalness", "liveness", "loudness", 
+                     "speechiness", "valence", "tempo", "time_signature")), as.numeric)) %>%
+  # drop rows with missing data
+  drop_na(all_of(c("release_date", "duration_ms", "acousticness", "danceability", "energy", 
+                 "instrumentalness", "liveness", "loudness", "speechiness", 
+                 "valence", "tempo", "key", "explicit", "mode"))) %>%
+  # extract first artist ID as a string
+  mutate(main_artist_id = str_extract(id_artists, "(?<=\\[')[^']+"))
+
+nonhits_data_cleaned <- nonhits_data %>%
+  # make sure all numeric variables are numeric
+  mutate(across(all_of(c("duration_ms", "key", "mode", 
+                     "acousticness", "danceability", "energy", 
+                     "instrumentalness", "liveness", "loudness", 
+                     "speechiness", "valence", "tempo", "time_signature")), as.numeric)) %>%
+  # drop rows with missing data
+  drop_na(all_of(c("release_date", "duration_ms", "acousticness", "danceability", "energy", 
+                 "instrumentalness", "liveness", "loudness", "speechiness", 
+                 "valence", "tempo", "key", "explicit", "mode"))) %>%
+  # extract first artist ID as a string
+  mutate(main_artist_id = str_extract(id_artists, "(?<=\\[')[^']+"))
+
+artists_data_cleaned <- artists_data_cleaned %>%
+  # only keep artists in the hits dataset
+  filter(artist_id %in% hits_data_cleaned$main_artist_id)
+```
+
+```{r join-genre}
+#| echo: false
+hits_data_cleaned <- hits_data_cleaned %>%
+  left_join(
+    artists_data_cleaned %>% 
+      # because artist_id is a char in artists.csv
+      mutate(artist_id = as.character(artist_id)) %>%
+      # only want to import genre column
+      select(artist_id, genre), 
+    # match by artist_id
+    by = c("main_artist_id" = "artist_id")
+  )
+
+nonhits_data_cleaned <- nonhits_data_cleaned %>%
+  left_join(
+    artists_data_cleaned %>% 
+      # because artist_id is a char in artists.csv
+      mutate(artist_id = as.character(artist_id)) %>% 
+      # only want to import genre column
+      select(artist_id, genre),
+    # match by artist_id
+    by = c("main_artist_id" = "artist_id")
+  )
+
+# drop songs by artists that couldn't be matched to a genre
+nonhits_data_cleaned <- nonhits_data_cleaned %>%
+  drop_na(genre)
+
+# drop songs by artists that couldn't be matched to a genre
+hits_data_cleaned <- hits_data_cleaned %>%
+  drop_na(genre)
+```
+
+```{r 2010s-data}
+#| echo: false
+hits_data_2010s <- hits_data_cleaned %>%
+  # keep only tracks with release date from 2010 to 2019
+  filter(year(release_date) >= 2010 & year(release_date) <= 2019)
+
+nonhits_data_2010s <- nonhits_data_cleaned %>%
+  # keep only tracks with release date from 2010 to 2019
+  filter(year(release_date) >= 2010 & year(release_date) <= 2019)
+```
+
+```{r drop-remasters}
+#| echo: false
+hits_data_2010s <- hits_data_2010s %>% 
+  # drop songs that were released as remasters (indicates song came out long before)
+  filter(!str_detect(tolower(song_name), "remaster"))
+
+nonhits_data_2010s <- nonhits_data_2010s %>% 
+  # drop songs that were released as remasters (indicates song came out long before)
+  filter(!str_detect(tolower(song_name), "remaster"))
+```
+
+```{r remove-data-outlier}
+#| echo: false
+nonhits_data_2010s <- nonhits_data_2010s %>%
+  # someone uploading mixes of other songs, with some extremely long mixes making the duration_ms column unhelpful for our analysis
+  filter(main_artist_id != "3GghVvugpv9nXQ2YFzZNzN")
+
+hits_data_2010s <- hits_data_2010s %>%
+  # someone uploading mixes of other songs, with some extremely long mixes making the duration_ms column unhelpful for our analysis
+  filter(main_artist_id != "3GghVvugpv9nXQ2YFzZNzN")
+```
+
+```{r remove-low-popularity-and-outlier-songs}
+#| echo: false
+hits_data_2010s <- hits_data_2010s %>%
+  # we found these to be made up almost entirely of non-2010 songs
+  filter(popularity > 1) %>%
+  # we found this to be a few songs that were incorrectly labeled
+  filter(!song_id %in% c("161KORe4R5IjtRbia9F2FK", "79Ot5mE1cG9Ge4YQKAJT1d", "2Yx4iJo4N451Z6MKFND4km", "1I56obKWXL0LsiC9Xf2f1O", "62mV6GTTEc34fREck4vguQ", "6plNVVm5iwbc3mgrAoHRun"))
+```
+
+```{r 2010s-hit-artists}
+#| echo: false
+nonhits_data_2010s <- nonhits_data_2010s %>%
+  # only keep the artists that had a hit in the 2010s for consistency
+  filter(id_artists %in% unique(hits_data_2010s$id_artists))
+```
+
+```{r take-random-sample-of-nonhits}
+#| echo: false
+nonhits_data_2010s_reduced <- nonhits_data_2010s %>%
+  # use slice_sample so it takes a random sample of rows
+  slice_sample(n = nrow(hits_data_2010s))
+```
+
+```{r combined-dataset}
+#| echo: false
+combined_music_data_all <- bind_rows(
+  hits_data_2010s %>% mutate(hit = TRUE), # hit = TRUE for hits
+  nonhits_data_2010s_reduced %>% mutate(hit = FALSE) # hit = FALSE for nonhits
+  )
+
+combined_music_data <- combined_music_data_all %>%
+  # only keep the columns we care about
+  select(c(release_date, duration_ms, acousticness, danceability, energy, instrumentalness, liveness, loudness, speechiness, valence, tempo, key, explicit, mode, genre, hit))
+
+# standardize numerical columns
+combined_music_data <- combined_music_data %>%
+  mutate(loudness = (loudness - min(loudness)) / (max(loudness) - min(loudness))) %>%
+  mutate(tempo = (tempo - min(tempo)) / (max(tempo) - min(tempo))) %>%
+  mutate(duration_ms = (duration_ms - min(duration_ms)) / (max(duration_ms) - min(duration_ms)))
+```
+
+```{r combined-all-2010s}
+#| echo: false
+# create unbalanced dataset of all 2010 songs for EDA
+combined_all_2010s <- bind_rows(
+  hits_data_2010s %>% mutate(hit = TRUE), # hit = TRUE for hits
+  nonhits_data_2010s %>% mutate(hit = FALSE) # hit = FALSE for nonhits
+  )
+
+# standardize numerical columns
+combined_all_2010s <- combined_all_2010s %>%
+  mutate(loudness = (loudness - min(loudness)) / (max(loudness) - min(loudness))) %>%
+  mutate(tempo = (tempo - min(tempo)) / (max(tempo) - min(tempo))) %>%
+  mutate(duration_ms = (duration_ms - min(duration_ms)) / (max(duration_ms) - min(duration_ms)))
+```
+
+# Exploratory Data Analysis
+
+## Hit Rate by Genre (combined dataset)
+
+Below we can see the hit rate by genre, indicating that certain genres will be more useful than others in predicting success!
+
+```{r distribution-and-hit-rate-by-genre}
+#| echo: false
+# table of genres, their number of observations, hits, hit rate, artists
+combined_all_2010s %>%
+  group_by(genre) %>%
+  summarize(
+    n = n(),
+    n_hits = sum(hit == TRUE, na.rm = TRUE),
+    hit_rate = round((n_hits / n) * 100,2)
+  ) %>%
+  # sort by hit_rate
+  arrange(desc(hit_rate))
+```
+
+## Summary Statistics {.smaller}
+
+Below is a table of summary statistics of our combined dataset for our explanatory variables.
+
+```{r explanatory-summary-table}
+#| echo: false
+# get mean and standard deivations of our key explanatory variables
+duration_mean <- round(mean(combined_all_2010s$duration_ms, na.rm = TRUE), 3)
+duration_median <- round(median(combined_all_2010s$duration_ms, na.rm = TRUE), 3)
+duration_sd <- round(sd(combined_all_2010s$duration_ms, na.rm = TRUE), 3)
+
+acousticness_mean <- round(mean(combined_all_2010s$acousticness, na.rm = TRUE), 3)
+acousticness_median <- round(median(combined_all_2010s$acousticness, na.rm = TRUE), 3)
+acousticness_sd <- round(sd(combined_all_2010s$acousticness, na.rm = TRUE), 3)
+
+danceability_mean <- round(mean(combined_all_2010s$danceability, na.rm = TRUE), 3)
+danceability_median <- round(median(combined_all_2010s$danceability, na.rm = TRUE), 3)
+danceability_sd <- round(sd(combined_all_2010s$danceability, na.rm = TRUE), 3)
+
+energy_mean <- round(mean(combined_all_2010s$energy, na.rm = TRUE), 3)
+energy_median <- round(median(combined_all_2010s$energy, na.rm = TRUE), 3)
+energy_sd <- round(sd(combined_all_2010s$energy, na.rm = TRUE), 3)
+
+instrumentalness_mean <- round(mean(combined_all_2010s$instrumentalness, na.rm = TRUE), 3)
+instrumentalness_median <- round(median(combined_all_2010s$instrumentalness, na.rm = TRUE), 3)
+instrumentalness_sd <- round(sd(combined_all_2010s$instrumentalness, na.rm = TRUE), 3)
+
+liveness_mean <- round(mean(combined_all_2010s$liveness, na.rm = TRUE), 3)
+liveness_median <- round(median(combined_all_2010s$liveness, na.rm = TRUE), 3)
+liveness_sd <- round(sd(combined_all_2010s$liveness, na.rm = TRUE), 3)
+
+loudness_mean <- round(mean(combined_all_2010s$loudness, na.rm = TRUE), 3)
+loudness_median <- round(median(combined_all_2010s$loudness, na.rm = TRUE), 3)
+loudness_sd <- round(sd(combined_all_2010s$loudness, na.rm = TRUE), 3)
+
+speechiness_mean <- round(mean(combined_all_2010s$speechiness, na.rm = TRUE), 3)
+speechiness_median <- round(median(combined_all_2010s$speechiness, na.rm = TRUE), 3)
+speechiness_sd <- round(sd(combined_all_2010s$speechiness, na.rm = TRUE), 3)
+
+valence_mean <- round(mean(combined_all_2010s$valence, na.rm = TRUE), 3)
+valence_median <- round(median(combined_all_2010s$valence, na.rm = TRUE), 3)
+valence_sd <- round(sd(combined_all_2010s$valence, na.rm = TRUE), 3)
+
+tempo_mean <- round(mean(combined_all_2010s$tempo, na.rm = TRUE), 3)
+tempo_median <- round(median(combined_all_2010s$tempo, na.rm = TRUE), 3)
+tempo_sd <- round(sd(combined_all_2010s$tempo, na.rm = TRUE), 3)
+
+explicit_mean <- round(mean(combined_all_2010s$explicit, na.rm = TRUE), 3)
+explicit_median <- round(median(combined_all_2010s$explicit, na.rm = TRUE), 3)
+explicit_sd <- round(sd(combined_all_2010s$explicit, na.rm = TRUE), 3)
+
+# add stats to a table
+summary_stats <- tibble(
+  # column of the variable names
+  variable = c("duration_ms", "acousticness", "danceability", "energy",
+               "instrumentalness", "liveness", "loudness",
+               "speechiness", "valence", "tempo", "explicit"),
+  # column of their means
+  mean = c(duration_mean, acousticness_mean, danceability_mean, energy_mean,
+           instrumentalness_mean, liveness_mean, loudness_mean,
+           speechiness_mean, valence_mean, tempo_mean, explicit_mean),
+  # column of their medians
+  median = c(duration_median, acousticness_median, danceability_median, energy_median,
+           instrumentalness_median, liveness_median, loudness_median,
+           speechiness_median, valence_median, tempo_median, explicit_median),
+  # column of their standard deviations
+  standard_deviation = c(duration_sd, acousticness_sd, danceability_sd, energy_sd,
+           instrumentalness_sd, liveness_sd, loudness_sd,
+           speechiness_sd, valence_sd, tempo_sd, explicit_sd)
+)
+
+summary_stats
+```
+
+- Key Takeaways:
+  - These statistics are post-normalization
+  - Explicit is binary: ~12% of our songs are listed as explicit 
+  - The distribution of duration is very tight (most songs released at this time had similar lengths)
+
+## Trends in Energy and hit status {.smaller}
+
+```{r mean-energy}
+#| echo: false
+# get mean energy for hits vs. non-hits by half-year
+plot_4_data <- combined_all_2010s %>% 
+  mutate(
+    year_val = year(release_date),
+    half = if_else(month(release_date) <= 6, "H1", "H2"),
+    half_label = paste(year_val, half),
+    half_index = year_val + if_else(half == "H1", 0, 0.5)
+  ) %>%
+  group_by(hit, year_val, half, half_label, half_index) %>%
+  summarize(
+    mean_energy = mean(energy, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+ggplot(plot_4_data, aes(x = half_index,
+                        y = mean_energy,
+                        color = factor(hit),
+                        group = hit)) +
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(
+    breaks = seq(2010, 2019, by = 1),
+    labels = seq(2010, 2019, by = 1)
+  ) +
+  labs(
+    title = "Average Energy for Hits vs. Non-Hits over Time",
+    x = "Year",
+    y = "Average Energy",
+    color = "Hit"
+  ) +
+  theme_minimal()
+```
+
+## Trends in Valence and hit status {.smaller}
+
+```{r mean-valence}
+#| echo: false
+# get the mean valence for hits vs. non-hits by year
+plot_3_data <- combined_all_2010s %>% 
+  mutate(
+    year_val = year(release_date),
+    half = if_else(month(release_date) <= 6, "H1", "H2"),
+    half_label = paste(year_val, half),
+    half_index = year_val + if_else(half == "H1", 0, 0.5)
+  ) %>%
+  group_by(hit, year_val, half, half_label, half_index) %>%
+  summarize(
+    mean_valence = mean(valence, na.rm = TRUE),
+    .groups = "drop"
+  )
+# plot the trend of valence for hits vs. non-hits
+ggplot(plot_3_data, aes(x = half_index,
+                        y = mean_valence,
+                        color = factor(hit),
+                        group = hit)) +
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(
+    breaks = seq(2010, 2019, by = 1),
+    labels = seq(2010, 2019, by = 1)
+  ) +
+  labs(
+    title = "Average Valence for Hits vs. Non-Hits over Time",
+    x = "Year",
+    y = "Average Valence",
+    color = "Hit"
+  ) +
+  theme_minimal()
+```
+
+## Trends in Danceability and hit status {.smaller}
+
+```{r mean-dance}
+#| echo: false
+# get mean dance for hits vs. non-hits by half-year
+plot_6_data <- combined_all_2010s %>% 
+  mutate(
+    year_val = year(release_date),
+    half = if_else(month(release_date) <= 6, "H1", "H2"),
+    half_label = paste(year_val, half),
+    half_index = year_val + if_else(half == "H1", 0, 0.5)
+  ) %>%
+  group_by(hit, year_val, half, half_label, half_index) %>%
+  summarize(
+    mean_dance = mean(danceability, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+ggplot(plot_6_data, aes(x = half_index,
+                        y = mean_dance,
+                        color = factor(hit),
+                        group = hit)) +
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(
+    breaks = seq(2010, 2019, by = 1),
+    labels = seq(2010, 2019, by = 1)
+  ) +
+  labs(
+    title = "Average Danceability for Hits vs. Non-Hits over Time",
+    x = "Year",
+    y = "Average Danceability",
+    color = "Hit"
+  ) +
+  theme_minimal()
+```
+
+## Trends in Acousticness and hit status {.smaller}
+
+```{r mean-acousticness}
+#| echo: false
+# same for mean acousticness
+plot_9_data <- combined_all_2010s %>% 
+  mutate(
+    year_val = year(release_date),
+    half = if_else(month(release_date) <= 6, "H1", "H2"),
+    half_label = paste(year_val, half),
+    half_index = year_val + if_else(half == "H1", 0, 0.5)
+  ) %>%
+  group_by(hit, year_val, half, half_label, half_index) %>%
+  summarize(
+    mean_acousticness = mean(acousticness, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+ggplot(plot_9_data, aes(x = half_index,
+                        y = mean_acousticness,
+                        color = factor(hit),
+                        group = hit)) +
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(
+    breaks = seq(2010, 2019, by = 1),
+    labels = seq(2010, 2019, by = 1)
+  ) +
+  labs(
+    title = "Average Acousticness for Hits vs. Non-Hits over Time",
+    x = "Year",
+    y = "Average Acousticness",
+    color = "Hit"
+  ) +
+  theme_minimal()
+```
+
+
+## Hypotheses {.smaller}
+
+#### Hypotheses:
+- Song elements that will significantly increase the model's likelihood of predicting a hit:
+  - Higher `danceability`, `valence` and `loudness` 
+  - Lower `duration_ms`, `acousticness`, `speechiness`, `liveness` and `instrumentalness` 
+  
+- Song elements that will have little to no effect:
+  - `key`, `tempo`, `explicit`, and `mode` 
+
+## Variable Correlation {.smaller}
+
+We made the following image that demonstrates the correlation between the relevant explanatory variables in our dataset.
+
+```{r correlation-heatmap}
+#| echo: false
+# select the relevant numerical columns
+numerical_cols <- combined_all_2010s %>%
+  select(duration_ms, acousticness, danceability, energy, 
+         instrumentalness, liveness, loudness, speechiness, 
+         valence, tempo)
+
+# compute the correlation matrix
+cor_matrix <- cor(numerical_cols)
+
+# visual correlation heatmap with smaller labels
+ggcorrplot(cor_matrix, 
+           lab = TRUE,
+           lab_size = 3)
+```
+
+# Inference and Modeling
+
+## LASSO and Ridge Classification Models {.smaller}
+
+- Penalizing variables (dealing with multicollinearity)
+- Easy to interpret coefficients
+- Prevents overfitting (higher bias, lower variance)
+- k-fold cross validation: k = 5
+
+```{python column-transf}
+#| echo: false
+import pandas as pd
+from sklearn.compose import make_column_transformer
+from sklearn.preprocessing import StandardScaler, OneHotEncoder, PolynomialFeatures
+
+X = r.combined_music_data.drop(columns=['hit', 'release_date'])
+y = r.combined_music_data['hit'].astype(int)
+
+categorical_columns = ['key', 'explicit', 'mode', 'genre']
+
+numerical_columns = (
+  ['duration_ms', 'acousticness', 'danceability', 'energy', 'instrumentalness',\
+  'liveness', 'loudness', 'speechiness', 'valence', 'tempo']
+  )
+
+preprocessor = make_column_transformer(
+  (OneHotEncoder(drop="first"), categorical_columns),
+  (StandardScaler(), numerical_columns),
+  remainder = 'passthrough',
+  verbose_feature_names_out=False, # avoid prepending preprocessor names
+)
+
+transformed_X = preprocessor.fit_transform(X)
+# to make it easier to view
+transformed_X = pd.DataFrame(
+transformed_X,
+columns = preprocessor.get_feature_names_out())
+```
+
+```{python tr-te-split}
+#| echo: false
+from sklearn.model_selection import train_test_split
+# create split
+X_train, X_test, y_train, y_test = train_test_split(
+  X, y, test_size = 0.2, stratify=y, random_state = 244)
+```
+
+```{python pipe-lasso}
+#| echo: false
+from sklearn.linear_model import ElasticNetCV, LogisticRegressionCV
+from sklearn.pipeline import Pipeline
+
+pipeline_lasso = Pipeline(
+  [
+    ('preprocess', preprocessor), 
+    ('estimator', LogisticRegressionCV(
+    penalty="l1",
+    solver="liblinear",
+    cv = 5, # cross validation
+    random_state=42,
+    max_iter=1000))
+  ]
+)
+```
+
+```{python fit-lasso}
+#| echo: false
+#| warning: false
+fitted_lasso = pipeline_lasso.fit(X_train, y_train)
+```
+
+## LASSO coefficient results {.smaller}
+
+```{python lasso-coeff-df}
+#| echo: false
+lasso_coef_df = pd.DataFrame({
+  "Feature": pipeline_lasso['preprocess'].get_feature_names_out(),
+  "Lasso": pipeline_lasso['estimator'].coef_[0]
+}).sort_values('Lasso', key=abs, ascending=False)
+lasso_coef_df[:10]
+```
+
+## LASSO Accuracy results
+
+```{python lasso-accuracy}
+#| echo: false
+from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
+
+# Lasso model predictions
+y_pred_train_l = pipeline_lasso.predict(X_train)
+y_pred_test_l = pipeline_lasso.predict(X_test)
+
+print("Accuracy score: " +str(round(accuracy_score(y_test, y_pred_test_l)*100,2))+"%")
+print("F1 Score: " +str(round(f1_score(y_test, y_pred_test_l),2)))
+print("ROC-AUC Score: " +str(round(roc_auc_score(y_test, pipeline_lasso.predict_proba(X_test)[:, 1]),2)))
+```
+
+## Ridge coefficient results {.smaller}
+
+```{python pipe-ridge}
+#| echo: false
+import numpy as np
+from sklearn.linear_model import RidgeCV
+from sklearn.linear_model import LogisticRegression
+
+alphas_list = 10 ** np.linspace(-2, 3, 20)
+
+# making a pipeline for ridge (logistic regression with l2 penalty)
+pipeline_ridge = Pipeline(
+  [
+    ('preprocess', preprocessor), 
+    ('estimator', LogisticRegressionCV(
+      penalty='l2', 
+      cv = 5, # cross validation
+      max_iter=1000, 
+      random_state=244))
+  ]
+)
+```
+
+```{python fit-ridge}
+#| echo: false
+#| warning: false
+# fit ridge model 
+pipeline_ridge.fit(X_train, y_train);
+```
+
+```{python create-coefficient-dataframe-ridge}
+#| echo: false
+ridge_coef_df = pd.DataFrame({
+  "Feature": pipeline_ridge['preprocess'].get_feature_names_out(),
+  "Ridge": pipeline_ridge['estimator'].coef_[0]
+}).sort_values('Ridge', key=abs, ascending=False)
+ridge_coef_df[:10]
+```
+
+## Ridge Accuracy results
+
+```{python ridge-predictions}
+#| echo: false
+# Ridge model predictions
+y_pred_train_r = pipeline_ridge.predict(X_train)
+y_pred_test_r = pipeline_ridge.predict(X_test)
+
+print("Accuracy score: " +str(round(accuracy_score(y_test, y_pred_test_r)*100,2))+"%")
+print("F1 Score: " +str(round(f1_score(y_test, y_pred_test_r),2)))
+print("ROC-AUC Score: " +str(round(roc_auc_score(y_test, pipeline_ridge.predict_proba(X_test)[:, 1]),2)))
+```
+
+```{python column-transf-no-genre}
+#| echo: false
+X = r.combined_music_data.drop(columns=['hit', 'release_date', 'genre'])
+y = r.combined_music_data['hit'].astype(int)
+
+categorical_columns = ['key', 'explicit', 'mode']
+
+numerical_columns = (
+  ['duration_ms', 'acousticness', 'danceability', 'energy', 'instrumentalness',\
+  'liveness', 'loudness', 'speechiness', 'valence', 'tempo']
+  )
+
+preprocessor = make_column_transformer(
+  (OneHotEncoder(drop="first"), categorical_columns),
+  (StandardScaler(), numerical_columns),
+  remainder = 'passthrough',
+  verbose_feature_names_out=False, # avoid prepending preprocessor names
+)
+
+transformed_X = preprocessor.fit_transform(X)
+# to make it easier to view
+transformed_X = pd.DataFrame(
+transformed_X,
+columns = preprocessor.get_feature_names_out())
+```
+
+```{python tr-te-split-no-genre}
+#| echo: false
+# create split
+X_train, X_test, y_train, y_test = train_test_split(
+  X, y, test_size = 0.2, stratify=y, random_state = 244)
+```
+
+```{python pipe-lasso-no-genre}
+#| echo: false
+pipeline_lasso = Pipeline(
+  [
+    ('preprocess', preprocessor), 
+    ('estimator', LogisticRegressionCV(
+    penalty="l1",
+    solver="liblinear",
+    cv = 5, # cross validation
+    random_state=42,
+    max_iter=1000))
+  ]
+)
+```
+
+```{python fit-lasso-no-genre}
+#| echo: false
+#| warning: false
+fitted_lasso = pipeline_lasso.fit(X_train, y_train)
+```
+
+## LASSO coefficient results (no genre) {.smaller}
+
+```{python lasso-coeff-df-no-genre}
+#| echo: false
+lasso_coef_df = pd.DataFrame({
+  "Feature": pipeline_lasso['preprocess'].get_feature_names_out(),
+  "Lasso": pipeline_lasso['estimator'].coef_[0]
+}).sort_values('Lasso', key=abs, ascending=False)
+lasso_coef_df[:10]
+```
+
+## LASSO Accuracy results (no genre)
+
+```{python lasso-accuracy-no-genre}
+#| echo: false
+# Lasso model predictions
+y_pred_train_l = pipeline_lasso.predict(X_train)
+y_pred_test_l = pipeline_lasso.predict(X_test)
+
+print("Accuracy score: " +str(round(accuracy_score(y_test, y_pred_test_l)*100,2))+"%")
+print("F1 Score: " +str(round(f1_score(y_test, y_pred_test_l),2)))
+print("ROC-AUC Score: " +str(round(roc_auc_score(y_test, pipeline_lasso.predict_proba(X_test)[:, 1]),2)))
+```
+
+## Ridge coefficient results (no genre) {.smaller}
+
+```{python pipe-ridge-no-genre}
+#| echo: false
+alphas_list = 10 ** np.linspace(-2, 3, 20)
+
+# making a pipeline for ridge (logistic regression with l2 penalty)
+pipeline_ridge = Pipeline(
+  [
+    ('preprocess', preprocessor), 
+    ('estimator', LogisticRegressionCV(
+      penalty='l2', 
+      cv = 5, # cross validation
+      max_iter=1000, 
+      random_state=244)
+      )
+  ]
+)
+```
+
+```{python fit-ridge-no-genre}
+#| echo: false
+#| warning: false
+# fit ridge model 
+pipeline_ridge.fit(X_train, y_train);
+```
+
+```{python create-coefficient-dataframe-ridge-no-genre}
+#| echo: false
+ridge_coef_df = pd.DataFrame({
+  "Feature": pipeline_ridge['preprocess'].get_feature_names_out(),
+  "Ridge": pipeline_ridge['estimator'].coef_[0]
+}).sort_values('Ridge', key=abs, ascending=False)
+ridge_coef_df[:10]
+```
+
+## Ridge Accuracy results (no genre)
+
+```{python ridge-predictions-no-genre}
+#| echo: false
+# Ridge model predictions
+y_pred_train_r = pipeline_ridge.predict(X_train)
+y_pred_test_r = pipeline_ridge.predict(X_test)
+
+print("Accuracy score: " +str(round(accuracy_score(y_test, y_pred_test_r)*100,2))+"%")
+print("F1 Score: " +str(round(f1_score(y_test, y_pred_test_r),2)))
+print("ROC-AUC Score: " +str(round(roc_auc_score(y_test, pipeline_ridge.predict_proba(X_test)[:, 1]),2)))
+```
+
+# Discussion and Future Work
+
+## Conclusions + Limitations {.smaller}
+
+- Model does not *fully* capture what makes a song a hit, but it does a pretty decent job
+  - Achieved around 70% accuracy
+  
+- Genre is highly influential
+  - Model performance increases by ~3% when genre is included
+  - Spotify-derived characteristics are not as important
+
+- Dates may not reflect reality
+  - Unlabeled remasters released during the sample period may bias results
+    - These songs may not follow the 2010s "formula for success"
+  - Certain songs have incorrect dates due to when they were added to music streaming platforms
+  - Potential use of Spotify API to get correct dates
+
+- Varying amount of data by year/genre
+  - Different numbers of observations per year/genre may also be skewing data
+
+## Future Work {.smaller}
+- Look further into genres
+  - Certain genres with low numbers of observations may be biasing our current estimates
+
+- Test model on currently successful songs/new releases
+  - See how accurate the model is with music from outside this period
+  
+- Potentially looking at other predictors
+  - Collaborations vs. Solo Song
+  - Whether the artist is signed vs. independent
+    - Could help proxy some of the "marketing" impact
+  - A song's language
+  
+# Thank you :)
+
