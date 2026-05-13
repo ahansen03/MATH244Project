@@ -1,0 +1,108 @@
+---
+title: "Exploratory Data Analysis"
+subtitle: "Spring 2026"
+format: 
+  html:
+    page-layout: full
+    theme: cosmo
+    toc: true
+    toc-title: "Contents"
+    embed-resources: true
+    standalone: true
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+To understand the characteristics of hit versus non-hit songs in our dataset, we conducted a comprehensive exploratory data analysis (EDA) of the audio features from Spotify. This section reveals important patterns in our data and helps validate our initial hypotheses about what makes a song successful.
+
+### Hit Rate by Genre
+
+We began by examining whether certain genres were more likely to produce chart-topping hits. The results, shown below, demonstrate clear variation in success rates across genres:
+
+| genre | n | n_hits | hit_rate |
+|:-----------|:-----------:|:-----------:|:-----------:|
+| Soundtrack/Theater | 914 | 84 | 9.19 |
+| Country | 7923 | 584 | 7.37 |
+| Soul/R&B/Funk | 1812 | 109 | 6.02 |
+| Hip Hop/Rap | 11471 | 610 | 5.32 |
+| Pop | 25216 | 1305 | 5.18 |
+| Electronic/Dance | 2833 | 104 | 3.67 |
+| Rock/Metal | 9900 | 344 | 3.47 |
+| Indie | 4716 | 104 | 2.21 |
+| Other | 6548 | 143 | 2.18 |
+| Easy Listening | 18189 | 281 | 1.54 |
+| Comedy/Entertainment | 4548 | 16 | 0.35 |
+| Children's Music | 6795 | 12 | 0.18 |
+
+Soundtrack/Theater, Country, and Soul/R&B/Funk songs had the highest hit rates, ranging from ~6-9%. In contrast, Children's Music and Comedy/Entertainment had the lowest rates, below 0.5% each. This suggests that certain genres have intrinsically different likelihoods of achieving mainstream success. Interestingly, Pop and Hip Hop/Rap—our expectations of the most dominant genres during this period—had a moderate hit rate of ~5% each, possibly indicating an oversaturation in the market.
+
+### Temporal Trends in Audio Features
+
+Next, we investigated how key audio characteristics differed between hits and non-hits over the decade. We hypothesized that higher **energy**, **danceability**, and **valence** would be associated with hits, while lower **acousticness** would favor commercial success.
+
+#### Energy Over Time
+
+The chart below shows the average energy levels for hits and non-hits across the 2010-2019 period:
+
+![](energy_trend.png){fig-align="center" width="603"}
+
+**Key observation**: Hit songs consistently maintained higher energy levels than non-hits throughout the decade (ranging from 0.60–0.72 for hits vs. 0.43–0.61 for non-hits). The gap between hits and non-hits was most pronounced in the early 2010s and gradually narrowed toward 2019, suggesting that energy became a less distinctive marker of success over time. This preliminary finding aligns well with our first hypothesis that energy is a positive predictor of chart success.
+
+#### Valence Over Time
+
+Valence—Spotify's measure of musical positiveness or cheerfulness—also showed interesting trends:
+
+![](valence_trend.png){fig-align="center" width="603"}
+
+Hit songs consistently scored higher on valence, though the difference was more subtle than with energy. Hit songs averaged around 0.48–0.65 in valence, while non-hits averaged 0.40–0.52. Notably, both hit and non-hit songs showed a sharp increase in valence in 2019, suggesting a broader industry shift toward more upbeat music during that year. This also supports our hypothesis that positive, cheerful music performs better commercially.
+
+#### Danceability Over Time
+
+Danceability, perhaps the most intuitive predictor of radio-friendly hits, showed strong separation between the two groups:
+
+![](danceability_trend.png){fig-align="center" width="603"}
+
+Hit songs were notably more danceable, with averages ranging from 0.59–0.67, compared to non-hits at 0.52–0.61. Interestingly, danceability showed more year-to-year volatility for both groups, with a particularly sharp spike in hit song danceability around 2017–2018. This aligns with the rise of electronic and dance-influenced pop music during that period. Our hypothesis that danceability predicts success appears well-founded based on these temporal trends.
+
+#### Acousticness Over Time
+
+In contrast, acousticness—the presence of acoustic versus electronic production—showed the clearest inverse relationship with hit status:
+
+![](acousticness_trend.png){fig-align="center" width="603"}
+
+Non-hit songs had substantially higher acousticness levels (0.30–0.48) compared to hits (0.17–0.30). This difference suggests that acousticness is one of the strongest differentiators in our data. Songs that charted tended to be more produced and electronic, while more acoustic, folk-influenced, or singer-songwriter tracks rarely achieved mainstream success. This finding strongly validates our hypothesis that lower acousticness is associated with commercial success.
+
+### Correlation Analysis
+
+To understand how our audio features relate to one another and to hit status, we computed a correlation matrix of all numerical variables:
+
+![](correlation_heatmap.png){fig-align="center" width="603"}
+
+Several notable correlations emerge from this analysis:
+
+- **Energy and Loudness** (r = 0.82): These features are highly correlated, which makes intuitive sense—louder songs tend to be more energetic.
+
+- **Acousticness and Energy** (r = -0.73): A strong negative correlation confirms that acoustic songs tend to be quieter and less energetic.
+
+- **Acousticness and Loudness** (r = -0.67): As expected from the above, acoustic songs tend to be quieter.
+
+- **Acousticness and Instrumentalness** (r = 0.50): Songs with higher acousticness tend to have a high instrumentalness rather than vocals.
+
+-**Valence and Danceability/Energy** (r = 0.38): A slightly weaker correlation demonstrates that happier songs tend to have slightly higher levels of danceability and energy. 
+
+These correlations suggest potential **multicollinearity** issues in our data—some features are redundant predictors of a similar musical idea. This will be important to consider when building our models, as highly correlated predictors can increase variance and make it difficult to tell which predictors actually matter.
+
+### Summary of EDA Findings
+
+Our exploratory analysis provides strong preliminary support for our initial hypotheses:
+
+1. Energy, danceability, and valence tend to be higher in hit songs
+2. Acousticness tends to be lower in hit songs
+3. Hit rates vary dramatically by genre, indicating that commercial success is partly driven by the music category itself. We will determine/see exactly to what extent after we run our models!
+4. All features showed year-to-year fluctuations (e.g. energy levels between hits/nonhits seem to be converging), suggesting that the expectations for a hit may shift over time.
+5. The correlation map suggests possible multicollinearity issues, which we'll address during the modeling phase through model and feature selection.
+
+---
+
+Next, we will get into our **Methodology** process, including our modeling choices.
